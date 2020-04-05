@@ -48,8 +48,6 @@ def getData(source,output):
 
 	while True:
 
-		print("Trying:",skip,"to",skip+take)
-
 		link = source % str(skip)
 		req = urllib.request.Request(link, headers={'User-Agent': 'Mozilla/5.0'})      
 		with urllib.request.urlopen(req) as response:
@@ -57,10 +55,13 @@ def getData(source,output):
 
 			f = open("download.txt","a", encoding='utf-8')
 			strResult = str(result).split("},")
-			if len(result) < 1:
+
+			if len(strResult) <= 2:
 				break
 
 			for line in strResult:
+				if "'content_kind': None" in line:
+				     continue
 				tmpstr = line + "\n"
 				#print(tmpstr)
 				f.write(tmpstr)
